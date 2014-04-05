@@ -1,9 +1,17 @@
 #!/usr/bin/perl
 
-my $file1 = "reut2-000.sgm";
+
+my $file1 = $ARGV[0];
 my $valid = "validation.txt";
 my $test = "test.txt";
 my $res = "res.txt";
+
+my $light = 1;
+if($#ARGV == 1 && $ARGV[1] == "l"){
+	$light=0;
+}
+
+if($light==0){print "Light Mode !\n";}
 
 open(FILE1, "<$file1") or die "Unable to open $file1\n";
 
@@ -42,9 +50,9 @@ foreach my $l (@texts)
 {
 	if ($l =~ /<REUTERS TOPICS=(.*?) LEWISSPLIT=(.*?) CGISPLIT=(.*?) OLDID=(.*)>/)
 	{
-		print RES "TOPICS : $1\n";
-		print RES "LEWIS : $2\n";
-		print RES "CGI : $3\n";
+		if($light){print RES "TOPICS : $1\n"};
+		if($light){print RES "LEWIS : $2\n"};
+		if($light){print RES "CGI : $3\n"};
 	}
 
 	if ($l =~ /<TOPICS>(.*?)<\/TOPICS>/)
@@ -53,12 +61,12 @@ foreach my $l (@texts)
 		$tmp =~ s/<D>//g;
 		$tmp =~ s/<\/D>/,/g;
 		chop($tmp);
-		print RES "TOPICS : $tmp\n";
+		if($light){print RES "TOPICS : $tmp\n"};
 	}
 
 	if ($l =~ /<TITLE>(.*?)<\/TITLE>/)
 	{
-		print RES "TITLE : $1\n\n";
+		if($light){print RES "TITLE : $1\n\n"};
 	}
 
 	if ($l =~ /<BODY>(.*)<\/BODY>/)
@@ -90,7 +98,7 @@ foreach my $l (@texts)
 		print RES "$ligne_finale\n\n";
 	}
 	
-	print RES "*****************************************************************************************\n\n";
+	if($light){print RES "*****************************************************************************************\n\n"};
 }
 
 close FILE1;
