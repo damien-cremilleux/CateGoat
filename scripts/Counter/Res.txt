@@ -1,0 +1,49 @@
+ARTICLE numero 1 
+
+adjustments: 1
+august: 1
+cts: 1
+loss: 4
+march: 1
+net: 2
+note:: 1
+offering.: 1
+original: 1
+profit: 1
+resulting: 1
+revs: 2
+shareholders: 1
+shr: 2
+vs: 1
+year: 1
+
+ARTICLE numero 2 
+
+$$$: 1
+,: 1
+assumed: 1
+c.: 1
+chairman: 1
+chief: 1
+corp: 1
+corp,: 1
+davis.: 1
+given.: 1
+loss: 1
+midcon: 2
+o.c.: 1
+occidental: 1
+officer: 1
+operating: 1
+petroleum: 1
+president: 1
+reason: 1
+reponsibilities: 1
+resigned: 1
+said: 1
+subsidiary: 1
+terpstra: 1
+william: 1
+
+ARTICLE numero 3 
+
