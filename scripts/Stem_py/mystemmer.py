@@ -357,14 +357,17 @@ if __name__ == '__main__':
                 line = infile.readline()
                 if line == '':
                     break
-                for c in line:
-                    if c.isalpha():
-                        word += c.lower()
-                    else:
-                        if word:
-                            output += p.stem(word, 0,len(word)-1)
-                            word = ''
-                        output += c.lower()
+                if line.startswith('<TOPICS>'):
+                	output = line
+                else:
+		            for c in line:
+		                if c.isalpha():
+		                    word += c.lower()
+		                else:
+		                    if word:
+		                        output += p.stem(word, 0,len(word)-1)
+		                        word = ''
+		                    output += c.lower()
                 file.write(output),
             infile.close()
             file.close()
