@@ -181,8 +181,6 @@ int main(int argc, const char * argv[])
 				string word;
 				fileStream >> word;
 
-				//	cout << word << "\n";
-
 				//On ne lit pas les categories
 				if (word == "<TOPICS>") {
 					in_cat = 1;
