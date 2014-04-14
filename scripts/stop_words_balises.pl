@@ -47,14 +47,13 @@ while($file <= $#ARGV){
 	$file++;
 }
 
-
 foreach my $l (@texts)
 {
 	if ($l =~ /<REUTERS TOPICS="(.*?)" LEWISSPLIT="(.*?)" CGISPLIT="(.*?)" OLDID=(.*)>/)
 	{
-		print RES "TOPICS : $1\n";
-		print RES "LEWIS : $2\n";
-		print RES "CGI : $3\n";
+		#print RES "<TOPICS> : $1 </TOPICS>\n";
+		#print RES "LEWIS : $2\n";
+		#print RES "CGI : $3\n";
 		$split = $2;
 	}
 
@@ -62,25 +61,27 @@ foreach my $l (@texts)
 	{
 		my $tmp = $1;
 		$tmp =~ s/<D>//g;
-		$tmp =~ s/<\/D>/,/g;
+		$tmp =~ s/<\/D>/ /g;
 		chop($tmp);
-		print RES "TOPICS : $tmp\n";
+		$topic = $tmp;
 	}
 
-	if ($l =~ /<TITLE>(.*?)<\/TITLE>/)
-	{
-		print RES "TITLE : $1\n";
-	}
+	#if ($l =~ /<TITLE>(.*?)<\/TITLE>/)
+	#{
+		#print RES "TITLE : $1\n";
+	#}
 
 	if ($l =~ /<BODY>(.*)<\/BODY>/)
 	{	
+
+		$in = 0;
+		
 		$tmp = $1;		
 		$tmp =~ s/##/\n/g;
 		$tmp = lc ($tmp);
 		$tmp =~ s/[.,;:\+\-\*=\$"'\/?!()[\]<>^@&#]/ /g;
 		$tmp =~ s/\d+/ /g;
 		@words = split( /\s+/, $tmp );
-
 
 		$ligne_finale = "";
 
@@ -94,22 +95,36 @@ foreach my $l (@texts)
 				}
 			}
 
-			if ($trouve == 0) {
-				$ligne_finale = $ligne_finale." ".$word; 
+			if ($trouve == 0 && $in == 1) {
+				$ligne_finale = $ligne_finale." ".$word;
+			}
+			elsif ($trouve == 0 && $in == 0) {
+				$ligne_finale = $word;
+				$in++;
 			}
 
 		}
 
 		#CHOIX DE L'IMPRESSION.
 		#	$split == TEST  		-> écriture dans test
-		# 	$split == TRAINING  	-> écriture dans training
-		if($split eq "TEST") { print TEST "$ligne_finale\n\n"; }
-		if($split eq "TRAIN") { print TRAINING "$ligne_finale\n\n"; }
-		print RES "$ligne_finale\n\n";
-	
+		# 	$split == TRAINING  	-> écriture dans training	
+		if ($topic !~ /^\s*$/)
+		{
+			if($split eq "TEST") 
+			{
+				print TEST "<TOPICS> $topic </TOPICS>\n";
+				print TEST "$ligne_finale\n";
+				print TEST "\$\$\$\n";
+			}
+			if($split eq "TRAIN") 
+			{
+				print TRAINING "<TOPICS> $topic </TOPICS>\n";
+				print TRAINING "$ligne_finale\n";
+				print TRAINING "\$\$\$\n";
+			}
+		}	
 	}
 }
 
 close TRAINING;
 close TEST;
-close RES;
